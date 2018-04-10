@@ -11,16 +11,12 @@ exports.personium = (function() {
         return _keys;
     };
     
-    personium.getInvalidKeys = function(params) {
-        var receivedKeys = _.keys(params); // Get only keys of the hash
-        var allowedKeys = personium.getAllowedKeys();
-        
-        return (_.difference(receivedKeys, allowedKeys));
-    };
-    
     personium.validateKeys = function(params) {
-        var invalidKeys = personium.getInvalidKeys(params);
-        if (invalidKeys.length > 0) {
+        var invalidParams = _.omit(params, _keys);
+        if (_.isEmpty(invalidParams)) {
+            return true;
+        } else {
+            var invalidKeys = _.keys(invalidParams);
             var err = [
                 "io.personium.client.DaoException: 400,",
                 JSON.stringify({
@@ -34,7 +30,6 @@ exports.personium = (function() {
             ].join("");
             throw new _p.PersoniumException(err);
         }
-        return true;
     };
     
     /*
