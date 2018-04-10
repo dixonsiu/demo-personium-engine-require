@@ -11,19 +11,14 @@ function(request){
         return loadTest.personium.createResponse(400, tempBody);
     }
     var params = JSON.parse(bodyAsString);
-    var receivedKeys = loadTest._.keys(params); // Get only keys of the hash
-    var allowedKeys = getAllowedKeys();
     
     // Compare and see if unsupportd keys exist or not
-    if (loadTest._.difference(receivedKeys, allowedKeys).length > 0) {
-        var tempBody = {
-            code: "PR400-OD-0014",
-            message: {
-                lang: "en",
-                value: "Unknown property was appointed."
-            }
-        };
-        return loadTest.personium.createResponse(400, tempBody);
+    try {
+        var allowedKeys = getAllowedKeys();
+        loadTest.personium.setAllowedKeys(allowedKeys);
+        loadTest.personium.validateKeys(params);
+    } catch(e) {
+        return loadTest.personium.createErrorResponse(e);
     }
     
     params.status="success";
@@ -36,6 +31,5 @@ var getAllowedKeys = function() {
 };
 
 var loadTest = {};
-loadTest._ = require("underscore")._;
 loadTest.personium = require("personium").personium;
 
