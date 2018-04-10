@@ -37,11 +37,23 @@ exports.personium = (function() {
         return true;
     };
     
+    /*
+     * There is no way to differentiate system error or Personium Exception.
+     * Therefore, we try to check if e.message is JSON (Personium Exception) or not.
+     */
     personium.createErrorResponse = function(e) {
-        if (e.code == 0) {
-            return personium.createResponse(500, e.message);
+        var tempErrorCode = e.code;
+        var tempErrorMessage;
+        try {
+            // Convert to JSON so that response header can be properly configured ("Content-Type":"application/json").
+            tempErrorMessage = JSON.parse(e.message);
+        } catch(e) {
+            tempErrorMessage = e.message;
         }
-        return personium.createResponse(e.code, e.message);
+        if (tempErrorCode == 0) {
+            return personium.createResponse(500, tempErrorMessage);
+        }
+        return personium.createResponse(tempErrorCode, tempErrorMessage);
     };
     
     personium.createResponse = function(tempCode, tempBody) {
