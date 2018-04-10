@@ -8,4 +8,4 @@ I assume you already know how to deploy a service.
 1. Configure test.js as the endpoint.  
 
 # Test  
-Import the RestletClient.json to Restlet Client in Chome and execute the requests.  
+You can try out the [CODEPEN](https://codepen.io/dixonsiu/pen/wmNzrm) or import the RestletClient.json to Restlet Client in Chome and execute the requests.  
