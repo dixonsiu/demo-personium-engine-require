@@ -8,7 +8,7 @@ function(request){
                 value: "Request body is empty."
             }
         };
-        return createResponse(400, tempBody);
+        return loadTest.personium.createResponse(400, tempBody);
     }
     var params = JSON.parse(bodyAsString);
     var receivedKeys = loadTest._.keys(params); // Get only keys of the hash
@@ -23,27 +23,19 @@ function(request){
                 value: "Unknown property was appointed."
             }
         };
-        return createResponse(400, tempBody);
+        return loadTest.personium.createResponse(400, tempBody);
     }
     
     params.status="success";
 
-    return createResponse(201, params);
+    return loadTest.personium.createResponse(201, params);
 }
 
 var getAllowedKeys = function() {
     return ["a", "b", "c", "d", "e", "f", "g"];
 };
 
-function createResponse(tempCode, tempBody) {
-    var isString = typeof tempBody == "string";
-    var tempHeaders = isString ? {"Content-Type":"text/plain"} : {"Content-Type":"application/json"};
-    return {
-        status: tempCode,
-        headers: tempHeaders,
-        body: [isString ? tempBody : JSON.stringify(tempBody)]
-    };
-};
-
-var loadTest = require("underscore");
+var loadTest = {};
+loadTest._ = require("underscore")._;
+loadTest.personium = require("personium").personium;
 
