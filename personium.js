@@ -1,7 +1,42 @@
 exports.personium = (function() {
     var personium = personium || {};
     var _keys = [];
+    var _unitAdminInfo = {};
+    var _appCellAdminInfo = {
+        cellUrl : "***",
+        userId : "***",
+        password: "***" 
+    };
     var _ = require("underscore")._;    
+    
+    personium.setUnitAdminInfo = function(tempInfo) {
+        _unitAdminInfo =  {
+            unitUrl: tempInfo.targetUnitUrl,
+            cellUrl: tempInfo.targetUnitUrl + tempInfo.targetUnitAdminCellName + '/',
+            accountName: tempInfo.targetUnitAdminAccountName,
+            accountPass: tempInfo.targetUnitAdminAccountPassword
+        };
+    };
+
+    personium.getUnitAdminInfo = function() {
+        return _unitAdminInfo;
+    };
+
+    personium.setAppCellAdminInfo = function(tempInfo) {
+        _appCellAdminInfo = tempInfo;
+    };
+
+    personium.getAppCellAdminInfo = function() {
+        return _appCellAdminInfo;
+    };
+
+    personium.getUserCell = function(accInfo, cellname) {
+        return _p.as(accInfo).cell(cellname);
+    };
+
+    personium.getUserCellMainBox = function(accInfo, cellname){
+        return _p.as(accInfo).cell(cellname).box("__");
+    };
     
     personium.setAllowedKeys = function(tempArray) {
         _keys = tempArray;
@@ -38,6 +73,11 @@ exports.personium = (function() {
      */
     personium.createErrorResponse = function(e) {
         var tempErrorCode = e.code;
+        // System error
+        if (_.isError(e)) {
+            return personium.createResponse(500, e);
+        }
+
         var tempErrorMessage;
         try {
             // Convert to JSON so that response header can be properly configured ("Content-Type":"application/json").
@@ -45,9 +85,10 @@ exports.personium = (function() {
         } catch(e) {
             tempErrorMessage = e.message;
         }
-        if (tempErrorCode == 0) {
+        if (_.isUndefined(tempErrorCode) || _.isNull(tempErrorCode) || tempErrorCode == 0) {
             return personium.createResponse(500, tempErrorMessage);
         }
+        
         return personium.createResponse(tempErrorCode, tempErrorMessage);
     };
     
