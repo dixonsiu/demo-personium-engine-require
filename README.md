@@ -20,3 +20,8 @@ I assume you already know how to deploy a service.
 
 # How to test  
 You can try out the [CODEPEN](https://codepen.io/dixonsiu/pen/wmNzrm) or import the RestletClient.json to Restlet Client in Chome and execute the requests.  
+
+# Library version  
+1. [moment v2.22.1](https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.js)  
+1. [moment-timezone v0.5.14](https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.14/moment-timezone-with-data.js)  
+1. [underscore v1.9.1](https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js)    
