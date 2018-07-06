@@ -19,7 +19,11 @@ I assume you already know how to deploy a service.
 1. Configure test.js as the endpoint.  
 
 # How to test  
-You can try out the [CODEPEN](https://codepen.io/dixonsiu/pen/wmNzrm) or import the RestletClient.json to Restlet Client in Chome and execute the requests.  
+You can try out the CODEPEN or import the RestletClient.json to Restlet Client in Chome and execute the requests.  
+
+1. [Parameter validation](https://codepen.io/dixonsiu/pen/wmNzrm)  
+1. [Initialize Moment with timezone info](https://codepen.io/dixonsiu/pen/XYLjNK)  
+Without timezone, the date with become 9am in Japan. With timezone, the date is midnight as expected.  
 
 # Library version  
 1. [moment v2.22.1](https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.js)  
